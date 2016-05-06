@@ -37,8 +37,8 @@ http.createServer(function (req, res) {
 
 	var path = req.url;
   var urlObj = url.parse(req.url);
-  var channel = url.query.channel;
-  var message = url.query.message;
+  var channel = urlObj.query.channel;
+  var message = urlObj.query.message;
 	console.log("requested=" + path + " counter=" + counter);
 
 	res.writeHead(200, {'Content-Type': 'text/html'}); // prepare response headers
