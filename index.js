@@ -36,7 +36,7 @@ http.createServer(function (req, res) {
   	counter=counter+1;
 
 	var path = req.url;
-  var urlObj = url.parse(req.url);
+  var urlObj = url.parse(req.url, true);
   var channel = urlObj.query.channel;
   var message = urlObj.query.message;
 	console.log("requested=" + path + " counter=" + counter);
