@@ -17,14 +17,15 @@ bot.startRTM(function(err,bot,payload) {
 bot.configureIncomingWebhook({
   url : process.env.SLACK_WEBHOOK_URL
 });
-var sendTestMsg = function (msg) {
+var sendTestMsg = function (msg, channel) {
   bot.sendWebhook({
-    text: msg || " A test webhook message",
-    channel : '#taa-testing'
+    text: msg || 'Hello world, this is the default message',
+    channel : channel || '#taa-testing'
   });
 };
 
 var http = require('http');
+var url = require('url');
 var port = process.env.PORT || 8000;
 
 var counter = 0;
@@ -35,6 +36,9 @@ http.createServer(function (req, res) {
   	counter=counter+1;
 
 	var path = req.url;
+  var urlObj = url.parse(req.url);
+  var channel = url.query.channel;
+  var message = url.query.message;
 	console.log("requested=" + path + " counter=" + counter);
 
 	res.writeHead(200, {'Content-Type': 'text/html'}); // prepare response headers
@@ -45,7 +49,7 @@ http.createServer(function (req, res) {
 	} else if (path == "/page2") {
 		res.end("This is page 2. <a href='/'>Back.</a>\n"); // send response and close connection
 	} else {
-    sendTestMsg(path);
+    sendTestMsg(message, channel);
     res.end('');
   }
 }).listen(port);
@@ -53,17 +57,23 @@ http.createServer(function (req, res) {
 // console info message
 console.log('Server running at http://127.0.0.1:' + port);
 
-//
-// // Daily tasks:
-//
-// var schedule = require('node-schedule');
-//
-// var sayHelloJob = schedule.scheduleJob('12 09 * * 1-5', function(){
-//   bot.say({
-//     text : "Chao a e",
-//     channel : 'C12G10BL2'
-//   });
-// });
+
+// Daily tasks:
+
+var schedule = require('node-schedule');
+
+var sayHelloJob = schedule.scheduleJob('12 09 * * 1-5', function(){
+  bot.sendWebhook({
+    text : "Chao a e",
+    channel : '#general'
+  });
+});
+var sayHelloJob = schedule.scheduleJob('41 22 * * 0-7', function(){
+  bot.sendWebhook({
+    text : "G9 a e",
+    channel : '#general'
+  });
+});
 //
 // // var sendPhotoJob = schedule.scheduleJob('25 09-18 * * 1-5', function(){
 // //   bot.say({
