@@ -6,4 +6,4 @@ os:
 nodejs:
   - node
   - "5"
-script: npm run travis
+#script: npm run travis
