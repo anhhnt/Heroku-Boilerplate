@@ -1,6 +1,9 @@
 {
   "name": "mynodeapp",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "botkit": "^0.1.1",
     "express": "3.0.x",
